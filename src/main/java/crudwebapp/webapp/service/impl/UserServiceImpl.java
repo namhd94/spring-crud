@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public List<UserEntity> getAllUsers() {
-    return (List<UserEntity>) userRepository.findAll();
+    return userRepository.findAll();
   }
 
   /**
