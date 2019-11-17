@@ -43,8 +43,8 @@ public class UserController {
   }
   
   @GetMapping("/{id}")
-  public Optional<UserEntity> readUser(@PathVariable Long id) {
-	  return userService.findUserById(id);
+  public Optional<UserEntity> readUser(@PathVariable(value = "id") Long userId) {
+	  return userService.findUserById(userId);
   }
   
   @PutMapping("/{id}")

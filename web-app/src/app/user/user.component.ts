@@ -1,5 +1,7 @@
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './user.service';
+import { User } from './user';
 
 @Component({
   selector: 'app-user',
@@ -8,8 +10,8 @@ import { UserService } from './user.service';
 })
 export class UserComponent implements OnInit {
 
-  users: any;
-
+  users: User[];
+  newUser: User;
 
   constructor(private userService: UserService) { }
 
@@ -18,7 +20,14 @@ export class UserComponent implements OnInit {
   }
 
   getUsers(): void {
-    this.users = this.userService.getUsers().subscribe(users => this.users = users);
+    this.userService.getUsers().subscribe(data => {
+      console.log(data);
+      this.users = data;
+    }, error => console.log(error));
+  }
+
+  addNewUser(): void {
+    this.newUser = new User();
   }
 
 }

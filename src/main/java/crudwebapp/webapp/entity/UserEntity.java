@@ -26,7 +26,7 @@ public class UserEntity {
 
   /** The id. */
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "user_id")
   private Long id;
 

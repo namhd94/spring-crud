@@ -1,0 +1,8 @@
+<ul *ngIf="user">
+    <li>Username: {{user.username}}</li>
+    <li>Email: {{user.email}}</li>
+    <li>Phone: {{user.phone}}</li>
+    <li>Created date: {{user.createdOn | date}}</li>
+    <li>Last login: {{user.lastLogin | date}}</li>
+</ul>
+

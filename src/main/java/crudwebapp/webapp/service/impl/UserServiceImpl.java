@@ -3,6 +3,7 @@
  */
 package crudwebapp.webapp.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,6 +41,9 @@ public class UserServiceImpl implements UserService {
    */
   @Override
   public void saveUser(UserEntity user) {
+    Date date = new Date(System.currentTimeMillis());
+    user.setCreatedOn(date);
+    user.setLastLogin(date);
     userRepository.save(user);
   }
 
