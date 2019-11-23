@@ -1,9 +1,9 @@
 <button (click)="addNewUser()">Add new user</button>
 <div *ngIf="users">
     <ul *ngFor="let user of users; let i = index">
-        <li>{{i + 1}}: <a [routerLink]="['/rest/user', user.id]">{{user.username}}</a></li>
+        <li>{{i + 1}}: <a [routerLink]="['/rest/user', user.id]">{{user.username}}</a><button (click)="updateUser(user.id)">Edit</button></li>
     </ul>
 </div>
-<div *ngIf="newUser">
-    <app-create-user [newUser]="newUser"></app-create-user>
+<div *ngIf="view">
+    <app-create-user [view]="view"></app-create-user>
 </div>

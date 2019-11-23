@@ -32,21 +32,43 @@ public class UserController {
   @Autowired
   private UserService userService;
   
+  /**
+   * Find all.
+   *
+   * @return the list
+   */
   @GetMapping
   public List<UserEntity> findAll() {
     return userService.getAllUsers();
   }
   
+  /**
+   * Creates the user.
+   *
+   * @param user the user
+   */
   @PostMapping
   public void createUser(@Valid @RequestBody UserEntity user) {
 	  userService.saveUser(user);
   }
   
+  /**
+   * Read user.
+   *
+   * @param userId the user id
+   * @return the optional
+   */
   @GetMapping("/{id}")
   public Optional<UserEntity> readUser(@PathVariable(value = "id") Long userId) {
 	  return userService.findUserById(userId);
   }
   
+  /**
+   * Update user.
+   *
+   * @param id the id
+   * @param updatedUser the updated user
+   */
   @PutMapping("/{id}")
   public void updateUser(@PathVariable Long id, @Valid @RequestBody UserEntity updatedUser) {
 	  Optional<UserEntity> user = userService.findUserById(id);
@@ -55,6 +77,11 @@ public class UserController {
 	  }
   }
   
+  /**
+   * Delete user.
+   *
+   * @param id the id
+   */
   @DeleteMapping("/{id}")
   public void deleteUser(@PathVariable Long id) {
 	  userService.deleteUser(id);

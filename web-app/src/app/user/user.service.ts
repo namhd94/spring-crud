@@ -1,4 +1,4 @@
-import { User } from './user';
+import { User } from './user.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient} from '@angular/common/http';
@@ -20,7 +20,11 @@ export class UserService {
     return this.http.get(`${this.baseUrl}/${id}`);
   }
 
-  createUser(newUser: Object): Observable<Object> {
+  createUser(newUser: object): Observable<object> {
     return this.http.post(`${this.baseUrl}`, newUser);
+  }
+
+  updateUser(id: number, userInfo: object): Observable<object> {
+    return this.http.put(`${this.baseUrl}/${id}`, userInfo);
   }
 }
