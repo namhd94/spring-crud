@@ -1,5 +1,5 @@
 <div *ngIf="view.mode">
-    <form [hidden]="submitted" autocomplete="off" (ngSubmit)="onSubmit()">
+    <form (ngSubmit)="onSubmit()">
         <label for="username">Username</label>
         <input type="text" id="username" required [(ngModel)]="userInfo.username" name="username">
         <br/>
@@ -14,7 +14,4 @@
         <br/>
         <button type="submit">Submit</button>
     </form>
-    <div [hidden]="!submitted">
-        <h4>You submitted successfully!</h4>
-    </div>
 </div>

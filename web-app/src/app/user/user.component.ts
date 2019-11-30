@@ -26,19 +26,18 @@ export class UserComponent implements OnInit {
     }, error => console.log(error));
   }
 
-  getUser(id: number): void {
-    this.userService.getUser(id).subscribe(data => {
-      this.view.userInfo = data;
-    }, error => console.log(error));
-  }
-
   addNewUser(): void {
     this.view.mode = 'create';
+    this.view.userInfo = new User();
   }
 
-  updateUser(id: number): void {
+  updateUser(user: User): void {
     this.view.mode = 'edit';
-    this.getUser(id);
+    this.view.userInfo = user;
   }
 
+  deleteUser(user: User): void {
+    this.users = this.users.filter(u => u !== user);
+    this.userService.deleteUser(user.id).subscribe(data => {}, error => console.log(error));
+  }
 }

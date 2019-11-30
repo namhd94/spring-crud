@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { UserService } from './../user.service';
 import { User } from '../user.model';
 import { UserMode } from '../user-mode.model';
-import { Component, OnInit, Input, OnDestroy, DoCheck } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, DoCheck, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'app-create-user',
@@ -12,7 +12,6 @@ import { Component, OnInit, Input, OnDestroy, DoCheck } from '@angular/core';
 export class CreateUserComponent implements OnInit, OnDestroy, DoCheck {
 
   @Input() view: UserMode;
-  submitted = false;
   userInfo: User;
 
   constructor(private userService: UserService, private router: Router) { }
@@ -22,7 +21,7 @@ export class CreateUserComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   ngDoCheck() {
-    if (this.view.mode === 'edit') {
+    if (this.view.mode) {
       this.userInfo = this.view.userInfo;
     }
   }
@@ -42,18 +41,20 @@ export class CreateUserComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   createNewUser() {
-    this.submitted = true;
     this.userService.createUser(this.userInfo).subscribe(data => {
       console.log(data);
       this.gotoList();
-    }, error => console.log(error));
+    }, error => {
+      console.log(error);
+    });
   }
 
   editUser() {
-    this.submitted = true;
     this.userService.updateUser(this.userInfo.id, this.userInfo).subscribe(data => {
       console.log(data);
-    }, error => console.log(error));
+    }, error => {
+      console.log(error);
+    });
   }
 
   gotoList() {
