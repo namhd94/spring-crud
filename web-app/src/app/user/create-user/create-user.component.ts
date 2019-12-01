@@ -2,28 +2,30 @@ import { Router } from '@angular/router';
 import { UserService } from './../user.service';
 import { User } from '../user.model';
 import { UserMode } from '../user-mode.model';
-import { Component, OnInit, Input, OnDestroy, DoCheck, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, DoCheck, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.less']
 })
-export class CreateUserComponent implements OnInit, OnDestroy, DoCheck {
+export class CreateUserComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() view: UserMode;
   userInfo: User;
+  submitted = false;
 
   constructor(private userService: UserService, private router: Router) { }
 
-  ngOnInit() {
-    this.userInfo = new User();
-  }
-
-  ngDoCheck() {
-    if (this.view.mode) {
+  ngOnChanges(simple: SimpleChanges) {
+    this.submitted = false;
+    if (simple.view.currentValue.mode) {
       this.userInfo = this.view.userInfo;
     }
+  }
+
+  ngOnInit() {
+    this.userInfo = new User();
   }
 
   ngOnDestroy() {
@@ -41,6 +43,7 @@ export class CreateUserComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   createNewUser() {
+    this.submitted = true;
     this.userService.createUser(this.userInfo).subscribe(data => {
       console.log(data);
       this.gotoList();
@@ -50,6 +53,7 @@ export class CreateUserComponent implements OnInit, OnDestroy, DoCheck {
   }
 
   editUser() {
+    this.submitted = true;
     this.userService.updateUser(this.userInfo.id, this.userInfo).subscribe(data => {
       console.log(data);
     }, error => {

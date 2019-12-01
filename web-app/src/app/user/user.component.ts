@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './user.service';
-import { User } from './user.model'; 
-import { UserMode } from './user-mode.model'; 
+import { User } from './user.model';
+import { UserMode } from './user-mode.model';
 
 @Component({
   selector: 'app-user',
@@ -16,7 +16,6 @@ export class UserComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.view = new UserMode();
     this.getUsers();
   }
 
@@ -27,11 +26,13 @@ export class UserComponent implements OnInit {
   }
 
   addNewUser(): void {
+    this.view = new UserMode();
     this.view.mode = 'create';
     this.view.userInfo = new User();
   }
 
   updateUser(user: User): void {
+    this.view = new UserMode();
     this.view.mode = 'edit';
     this.view.userInfo = user;
   }
