@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from './user.service';
 import { User } from './user.model';
 import { UserMode } from './user-mode.model';
+import { EventBusService } from '../event-bus.service';
 
 @Component({
   selector: 'app-user',
@@ -13,9 +14,13 @@ export class UserComponent implements OnInit {
   users: User[];
   view: UserMode;
 
-  constructor(private userService: UserService) { }
+  constructor(
+    private userService: UserService,
+    private eventBusService: EventBusService
+  ) { }
 
   ngOnInit() {
+    this.view = new UserMode();
     this.getUsers();
   }
 
@@ -26,19 +31,19 @@ export class UserComponent implements OnInit {
   }
 
   addNewUser(): void {
-    this.view = new UserMode();
     this.view.mode = 'create';
     this.view.userInfo = new User();
+    this.eventBusService.chaneUserMode(this.view);
   }
 
   updateUser(user: User): void {
-    this.view = new UserMode();
     this.view.mode = 'edit';
     this.view.userInfo = user;
+    this.eventBusService.chaneUserMode(this.view);
   }
 
   deleteUser(user: User): void {
     this.users = this.users.filter(u => u !== user);
-    this.userService.deleteUser(user.id).subscribe(data => {}, error => console.log(error));
+    this.userService.deleteUser(user.id).subscribe(data => { }, error => console.log(error));
   }
 }

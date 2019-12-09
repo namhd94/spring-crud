@@ -1,4 +1,4 @@
-<div *ngIf="view.mode">
+<div *ngIf="mode">
     <form [hidden]="submitted" (ngSubmit)="onSubmit()">
         <label for="username">Username</label>
         <input type="text" id="username" required [(ngModel)]="userInfo.username" name="username">

@@ -1,31 +1,32 @@
 import { Router } from '@angular/router';
 import { UserService } from './../user.service';
 import { User } from '../user.model';
-import { UserMode } from '../user-mode.model';
-import { Component, OnInit, Input, OnDestroy, DoCheck, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { EventBusService } from 'src/app/event-bus.service';
 
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.less']
 })
-export class CreateUserComponent implements OnInit, OnDestroy, OnChanges {
+export class CreateUserComponent implements OnInit, OnDestroy {
 
-  @Input() view: UserMode;
+  mode: string;
   userInfo: User;
   submitted = false;
 
-  constructor(private userService: UserService, private router: Router) { }
-
-  ngOnChanges(simple: SimpleChanges) {
-    this.submitted = false;
-    if (simple.view.currentValue.mode) {
-      this.userInfo = this.view.userInfo;
-    }
-  }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private eventBusService: EventBusService
+  ) { }
 
   ngOnInit() {
-    this.userInfo = new User();
+    this.eventBusService.currentUserMode.subscribe(view => {
+      this.mode = view.mode;
+      this.userInfo = view.userInfo;
+      this.submitted = false;
+    });
   }
 
   ngOnDestroy() {
@@ -35,9 +36,9 @@ export class CreateUserComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   onSubmit() {
-    if (this.view.mode === 'create') {
+    if (this.mode === 'create') {
       this.createNewUser();
-    } else if (this.view.mode === 'edit') {
+    } else if (this.mode === 'edit') {
       this.editUser();
     }
   }
