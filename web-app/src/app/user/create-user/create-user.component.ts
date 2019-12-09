@@ -23,6 +23,8 @@ export class CreateUserComponent implements OnInit {
     this.eventBusService.currentUserMode.subscribe(view => {
       if (!view.submitted) {
         this.view = view;
+      } else {
+        this.view = new UserMode();
       }
     });
   }
