@@ -33,12 +33,14 @@ export class UserComponent implements OnInit {
   addNewUser(): void {
     this.view.mode = 'create';
     this.view.userInfo = new User();
+    this.view.submitted = false;
     this.eventBusService.chaneUserMode(this.view);
   }
 
   updateUser(user: User): void {
     this.view.mode = 'edit';
     this.view.userInfo = user;
+    this.view.submitted = false;
     this.eventBusService.chaneUserMode(this.view);
   }
 

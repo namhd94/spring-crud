@@ -9,7 +9,7 @@ import { UserMode } from '../user-mode.model';
   templateUrl: './create-user.component.html',
   styleUrls: ['./create-user.component.less']
 })
-export class CreateUserComponent implements OnInit, OnDestroy {
+export class CreateUserComponent implements OnInit {
 
   view: UserMode;
 
@@ -21,15 +21,10 @@ export class CreateUserComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.eventBusService.currentUserMode.subscribe(view => {
-      this.view = view;
-      this.view.submitted = false;
+      if (!view.submitted) {
+        this.view = view;
+      }
     });
-  }
-
-  ngOnDestroy() {
-    if (Object.keys(this.view.userInfo).length !== 0) {
-      this.view.userInfo = null;
-    }
   }
 
   onSubmit() {
