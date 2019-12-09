@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { UserService } from './../user.service';
-import { User } from '../user.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EventBusService } from 'src/app/event-bus.service';
+import { UserMode } from '../user-mode.model';
 
 @Component({
   selector: 'app-create-user',
@@ -11,9 +11,7 @@ import { EventBusService } from 'src/app/event-bus.service';
 })
 export class CreateUserComponent implements OnInit, OnDestroy {
 
-  mode: string;
-  userInfo: User;
-  submitted = false;
+  view: UserMode;
 
   constructor(
     private userService: UserService,
@@ -23,29 +21,28 @@ export class CreateUserComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.eventBusService.currentUserMode.subscribe(view => {
-      this.mode = view.mode;
-      this.userInfo = view.userInfo;
-      this.submitted = false;
+      this.view = view;
+      this.view.submitted = false;
     });
   }
 
   ngOnDestroy() {
-    if (Object.keys(this.userInfo).length !== 0) {
-      this.userInfo = null;
+    if (Object.keys(this.view.userInfo).length !== 0) {
+      this.view.userInfo = null;
     }
   }
 
   onSubmit() {
-    if (this.mode === 'create') {
+    if (this.view.mode === 'create') {
       this.createNewUser();
-    } else if (this.mode === 'edit') {
+    } else if (this.view.mode === 'edit') {
       this.editUser();
     }
   }
 
   createNewUser() {
-    this.submitted = true;
-    this.userService.createUser(this.userInfo).subscribe(data => {
+    this.view.submitted = true;
+    this.userService.createUser(this.view.userInfo).subscribe(data => {
       console.log(data);
       this.gotoList();
     }, error => {
@@ -54,8 +51,8 @@ export class CreateUserComponent implements OnInit, OnDestroy {
   }
 
   editUser() {
-    this.submitted = true;
-    this.userService.updateUser(this.userInfo.id, this.userInfo).subscribe(data => {
+    this.view.submitted = true;
+    this.userService.updateUser(this.view.userInfo.id, this.view.userInfo).subscribe(data => {
       console.log(data);
     }, error => {
       console.log(error);
