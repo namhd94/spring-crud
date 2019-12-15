@@ -1,8 +1,12 @@
+import { AppState } from './../app-state.model';
+import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './user.service';
 import { User } from './user.model';
 import { UserMode } from './user-mode.model';
 import { EventBusService } from '../event-bus.service';
+import { Observable } from 'rxjs';
+import { UserActionTypes, LoadUserAction } from './store/actions/user.actions';
 
 @Component({
   selector: 'app-user',
@@ -11,23 +15,24 @@ import { EventBusService } from '../event-bus.service';
 })
 export class UserComponent implements OnInit {
 
-  users: User[];
+  users: Observable<User[]>;
+  loading$: Observable<boolean>;
+  error$: Observable<Error>;
   view: UserMode;
 
   constructor(
     private userService: UserService,
-    private eventBusService: EventBusService
+    private eventBusService: EventBusService,
+    private store: Store<AppState>
   ) { }
 
   ngOnInit() {
     this.view = new UserMode();
-    this.getUsers();
-  }
+    this.users = this.store.select(store => store.user.list);
+    this.loading$ = this.store.select(store => store.user.loading);
+    this.error$ = this.store.select(store => store.user.error);
 
-  getUsers(): void {
-    this.userService.getUsers().subscribe(data => {
-      this.users = data;
-    }, error => console.log(error));
+    this.store.dispatch(new LoadUserAction());
   }
 
   addNewUser(): void {
@@ -44,8 +49,8 @@ export class UserComponent implements OnInit {
     this.eventBusService.chaneUserMode(this.view);
   }
 
-  deleteUser(user: User): void {
-    this.users = this.users.filter(u => u !== user);
-    this.userService.deleteUser(user.id).subscribe(data => { }, error => console.log(error));
+  deleteUser(id: number): void {
+    // this.users = this.users.filter(u => u !== user);
+    this.userService.deleteUser(id).subscribe(data => { }, error => console.log(error));
   }
 }
