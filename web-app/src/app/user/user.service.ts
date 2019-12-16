@@ -1,7 +1,7 @@
 import { User } from './user.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { delay } from 'rxjs/operators';
 
 @Injectable({
@@ -14,8 +14,7 @@ export class UserService {
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<any> {
-    return this.http.get(`${this.baseUrl}`)
-    .pipe(delay(500));
+    return this.http.get(`${this.baseUrl}`).pipe(delay(500));
   }
 
   getUser(id: number): Observable<any> {
@@ -31,6 +30,6 @@ export class UserService {
   }
 
   deleteUser(id: number): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+    return this.http.delete(`${this.baseUrl}/${id}`).pipe(delay(500));
   }
 }

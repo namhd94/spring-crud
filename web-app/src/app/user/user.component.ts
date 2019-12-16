@@ -6,7 +6,7 @@ import { User } from './user.model';
 import { UserMode } from './user-mode.model';
 import { EventBusService } from '../event-bus.service';
 import { Observable } from 'rxjs';
-import { UserActionTypes, LoadUserAction } from './store/actions/user.actions';
+import { UserActionTypes, LoadUserAction, DeleteUserAction } from './store/actions/user.actions';
 
 @Component({
   selector: 'app-user',
@@ -50,7 +50,6 @@ export class UserComponent implements OnInit {
   }
 
   deleteUser(id: number): void {
-    // this.users = this.users.filter(u => u !== user);
-    this.userService.deleteUser(id).subscribe(data => { }, error => console.log(error));
+    this.store.dispatch(new DeleteUserAction(id));
   }
 }

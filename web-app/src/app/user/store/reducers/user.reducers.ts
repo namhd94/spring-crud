@@ -32,6 +32,40 @@ export function UserReducer(state: UserReducerState = initialState, action: User
                 loading: false,
                 error: action.payload
             };
+        case UserActionTypes.CREATE_USER:
+            return {
+                ...state,
+                loading: true
+            };
+        case UserActionTypes.CREATE_USER_SUCCESS:
+            return {
+                ...state,
+                list: [...state.list, action.payload],
+                loading: false
+            };
+        case UserActionTypes.CREATE_USER_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                loading: false
+            };
+        case UserActionTypes.DELETE_USER:
+            return {
+                ...state,
+                loading: true
+            };
+        case UserActionTypes.DELETE_USER_SUCCESS:
+            return {
+                ...state,
+                list: state.list.filter(item => item.id !== action.payload),
+                loading: false
+            };
+        case UserActionTypes.DELETE_USER_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                loading: false
+            };
         default:
             return state;
     }

@@ -7,6 +7,9 @@ export enum UserActionTypes {
     CREATE_USER = '[Create User Component] Create User',
     CREATE_USER_SUCCESS = '[Create User Component] Create User Success',
     CREATE_USER_FAILURE = '[Create User Component] Create User Failure',
+    DELETE_USER = '[User Component] Delete User',
+    DELETE_USER_SUCCESS = '[User Component] Delete User Success',
+    DELETE_USER_FAILURE = '[User Component] Delete User Failure',
     EDIT_USER = '[Create User Component] Edit User',
     EDIT_USER_SUCCESS = '[Create User Component] Edit User Success',
     EDIT_USER_FAILURE = '[Create User Component] Edit User Failure',
@@ -29,6 +32,43 @@ export class LoadUserFailureAction implements Action {
     constructor(public payload: Error) { }
 }
 
+export class CreateUserAction implements Action {
+    readonly type = UserActionTypes.CREATE_USER;
+    constructor(public payload: User) { }
+}
+
+export class CreateUserSuccessAction implements Action {
+    readonly type = UserActionTypes.CREATE_USER_SUCCESS;
+    constructor(public payload: User) { }
+}
+
+export class CreateUserFailureAction implements Action {
+    readonly type = UserActionTypes.CREATE_USER_FAILURE;
+    constructor(public payload: Error) { }
+}
+
+export class DeleteUserAction implements Action {
+    readonly type = UserActionTypes.DELETE_USER;
+    constructor(public payload: number) { }
+}
+
+export class DeleteUserSuccessAction implements Action {
+    readonly type = UserActionTypes.DELETE_USER_SUCCESS;
+    constructor(public payload: number) { }
+}
+
+export class DeleteUserFailureAction implements Action {
+    readonly type = UserActionTypes.DELETE_USER_FAILURE;
+    constructor(public payload: Error) { }
+}
+
+
 export type UserAction = LoadUserAction |
     LoadUserSuccessAction |
-    LoadUserFailureAction;
+    LoadUserFailureAction |
+    CreateUserAction |
+    CreateUserSuccessAction |
+    CreateUserFailureAction |
+    DeleteUserAction |
+    DeleteUserSuccessAction |
+    DeleteUserFailureAction;
