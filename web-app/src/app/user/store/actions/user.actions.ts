@@ -1,9 +1,11 @@
+import { UserMode } from './../../user-mode.model';
 import { User } from './../../user.model';
 import { Action } from '@ngrx/store';
 export enum UserActionTypes {
     LOAD_USER = '[User Component] Load Users',
     LOAD_USER_SUCCESS = '[User Component] Load Users Success',
     LOAD_USER_FAILURE = '[User Component] Load Users Failure',
+    LOAD_CREATE_USER = '[User Component] Load Create User',
     CREATE_USER = '[Create User Component] Create User',
     CREATE_USER_SUCCESS = '[Create User Component] Create User Success',
     CREATE_USER_FAILURE = '[Create User Component] Create User Failure',
@@ -30,6 +32,11 @@ export class LoadUserSuccessAction implements Action {
 export class LoadUserFailureAction implements Action {
     readonly type = UserActionTypes.LOAD_USER_FAILURE;
     constructor(public payload: Error) { }
+}
+
+export class LoadCreateUserAction implements Action {
+    readonly type = UserActionTypes.LOAD_CREATE_USER;
+    constructor(public payload: UserMode) { }
 }
 
 export class CreateUserAction implements Action {
@@ -80,6 +87,7 @@ export class DeleteUserFailureAction implements Action {
 export type UserAction = LoadUserAction |
     LoadUserSuccessAction |
     LoadUserFailureAction |
+    LoadCreateUserAction |
     CreateUserAction |
     CreateUserSuccessAction |
     CreateUserFailureAction |

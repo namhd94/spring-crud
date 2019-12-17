@@ -15,6 +15,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { UserReducer } from './user/store/reducers/user.reducers';
 import { UserEffect } from './user/store/effects/user.effects';
+import { CreateUserReducer } from './user/store/reducers/create-user.reducers';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { UserEffect } from './user/store/effects/user.effects';
     HttpClientModule,
     FormsModule,
     StoreModule.forRoot({
-      user: UserReducer
+      user: UserReducer,
+      createUser: CreateUserReducer
     }),
     EffectsModule.forRoot([UserEffect]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })

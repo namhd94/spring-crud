@@ -1,5 +1,3 @@
-import { AppState } from './../../../app-state.model';
-import { Store } from '@ngrx/store';
 import { UserService } from './../../user.service';
 import * as UserAction from './../actions/user.actions';
 import { Injectable } from '@angular/core';

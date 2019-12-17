@@ -3,9 +3,7 @@ import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { User } from './user.model';
 import { UserMode } from './user-mode.model';
-import { EventBusService } from '../event-bus.service';
-import { Observable } from 'rxjs';
-import { LoadUserAction, DeleteUserAction } from './store/actions/user.actions';
+import { LoadUserAction, DeleteUserAction, LoadCreateUserAction } from './store/actions/user.actions';
 
 @Component({
   selector: 'app-user',
@@ -14,21 +12,20 @@ import { LoadUserAction, DeleteUserAction } from './store/actions/user.actions';
 })
 export class UserComponent implements OnInit {
 
-  users: Observable<User[]>;
-  loading$: Observable<boolean>;
-  error$: Observable<Error>;
+  users: User[];
+  loading$: boolean;
+  error$: Error;
   view: UserMode;
 
   constructor(
-    private eventBusService: EventBusService,
     private store: Store<AppState>
   ) { }
 
   ngOnInit() {
     this.view = new UserMode();
-    this.users = this.store.select(store => store.user.list);
-    this.loading$ = this.store.select(store => store.user.loading);
-    this.error$ = this.store.select(store => store.user.error);
+    this.store.select(store => store.user.list).subscribe(users => this.users = users);
+    this.store.select(store => store.user.loading).subscribe(loading => this.loading$ = loading);
+    this.store.select(store => store.user.error).subscribe(error => this.error$ = error);
 
     this.store.dispatch(new LoadUserAction());
   }
@@ -37,14 +34,14 @@ export class UserComponent implements OnInit {
     this.view.mode = 'create';
     this.view.userInfo = new User();
     this.view.submitted = false;
-    this.eventBusService.chaneUserMode(this.view);
+    this.store.dispatch(new LoadCreateUserAction(this.view));
   }
 
   updateUser(user: User): void {
     this.view.mode = 'edit';
     this.view.userInfo = user;
     this.view.submitted = false;
-    this.eventBusService.chaneUserMode(this.view);
+    this.store.dispatch(new LoadCreateUserAction(this.view));
   }
 
   deleteUser(id: number): void {

@@ -1,11 +1,8 @@
 import { AppState } from './../../app-state.model';
 import { Store } from '@ngrx/store';
-import { Router } from '@angular/router';
-import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
-import { EventBusService } from 'src/app/event-bus.service';
 import { UserMode } from '../user-mode.model';
-import { CreateUserAction, LoadUserAction, EditUserAction } from '../store/actions/user.actions';
+import { CreateUserAction, EditUserAction } from '../store/actions/user.actions';
 
 @Component({
   selector: 'app-create-user',
@@ -17,14 +14,11 @@ export class CreateUserComponent implements OnInit {
   view: UserMode;
 
   constructor(
-    private userService: UserService,
-    private router: Router,
-    private eventBusService: EventBusService,
     private store: Store<AppState>
   ) { }
 
   ngOnInit() {
-    this.eventBusService.currentUserMode.subscribe(view => {
+    this.store.select(store => store.createUser.list).subscribe(view => {
       if (!view.submitted) {
         this.view = view;
       } else {
@@ -49,10 +43,6 @@ export class CreateUserComponent implements OnInit {
   editUser() {
     this.view.submitted = true;
     this.store.dispatch(new EditUserAction(this.view.userInfo));
-  }
-
-  gotoList() {
-    this.router.navigate(['/rest/user']);
   }
 
 }

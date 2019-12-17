@@ -1,6 +1,6 @@
 <button (click)="addNewUser()">Add new user</button>
 <div *ngIf="users">
-    <ul *ngFor="let user of users | async; let i = index">
+    <ul *ngFor="let user of users; let i = index">
         <li>{{i + 1}}: <a [routerLink]="['/rest/user', user.id]">{{user.username}}</a>
             <button (click)="updateUser(user)">Edit</button>
             <button (click)="deleteUser(user.id)">Delete</button>
