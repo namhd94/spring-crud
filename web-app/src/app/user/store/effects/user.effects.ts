@@ -70,7 +70,6 @@ export class UserEffect {
 
     constructor(
         private actions$: Actions,
-        private userService: UserService,
-        private store: Store<AppState>
+        private userService: UserService
     ) { }
 }
