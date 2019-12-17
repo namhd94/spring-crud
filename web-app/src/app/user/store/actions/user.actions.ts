@@ -46,6 +46,20 @@ export class CreateUserFailureAction implements Action {
     readonly type = UserActionTypes.CREATE_USER_FAILURE;
     constructor(public payload: Error) { }
 }
+export class EditUserAction implements Action {
+    readonly type = UserActionTypes.EDIT_USER;
+    constructor(public payload: User) { }
+}
+
+export class EditUserSuccessAction implements Action {
+    readonly type = UserActionTypes.EDIT_USER_SUCCESS;
+    constructor(public payload: User) { }
+}
+
+export class EditUserFailureAction implements Action {
+    readonly type = UserActionTypes.EDIT_USER_FAILURE;
+    constructor(public payload: Error) { }
+}
 
 export class DeleteUserAction implements Action {
     readonly type = UserActionTypes.DELETE_USER;
@@ -69,6 +83,9 @@ export type UserAction = LoadUserAction |
     CreateUserAction |
     CreateUserSuccessAction |
     CreateUserFailureAction |
+    EditUserAction  |
+    EditUserSuccessAction  |
+    EditUserFailureAction  |
     DeleteUserAction |
     DeleteUserSuccessAction |
     DeleteUserFailureAction;

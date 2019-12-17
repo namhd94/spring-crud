@@ -70,8 +70,8 @@ public class UserController {
    * @param updatedUser the updated user
    */
   @PutMapping("/{id}")
-  public void updateUser(@PathVariable Long id, @Valid @RequestBody UserEntity updatedUser) {
-	  Optional<UserEntity> user = userService.findUserById(id);
+  public void updateUser(@Valid @RequestBody UserEntity updatedUser) {
+	  Optional<UserEntity> user = userService.findUserById(updatedUser.getId());
 	  if (user.isPresent()) {
 		  userService.saveUser(updatedUser);
 	  }

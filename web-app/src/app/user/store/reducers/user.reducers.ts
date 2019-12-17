@@ -49,6 +49,23 @@ export function UserReducer(state: UserReducerState = initialState, action: User
                 error: action.payload,
                 loading: false
             };
+        case UserActionTypes.EDIT_USER:
+            return {
+                ...state,
+                loading: true
+            };
+        case UserActionTypes.EDIT_USER_SUCCESS:
+            return {
+                ...state,
+                list: state.list,
+                loading: false
+            };
+        case UserActionTypes.EDIT_USER_FAILURE:
+            return {
+                ...state,
+                error: action.payload,
+                loading: false
+            };
         case UserActionTypes.DELETE_USER:
             return {
                 ...state,

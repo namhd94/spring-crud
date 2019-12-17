@@ -1,12 +1,11 @@
 import { AppState } from './../app-state.model';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
-import { UserService } from './user.service';
 import { User } from './user.model';
 import { UserMode } from './user-mode.model';
 import { EventBusService } from '../event-bus.service';
 import { Observable } from 'rxjs';
-import { UserActionTypes, LoadUserAction, DeleteUserAction } from './store/actions/user.actions';
+import { LoadUserAction, DeleteUserAction } from './store/actions/user.actions';
 
 @Component({
   selector: 'app-user',
@@ -21,7 +20,6 @@ export class UserComponent implements OnInit {
   view: UserMode;
 
   constructor(
-    private userService: UserService,
     private eventBusService: EventBusService,
     private store: Store<AppState>
   ) { }

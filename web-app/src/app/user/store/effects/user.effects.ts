@@ -1,8 +1,10 @@
+import { AppState } from './../../../app-state.model';
+import { Store } from '@ngrx/store';
 import { UserService } from './../../user.service';
 import * as UserAction from './../actions/user.actions';
 import { Injectable } from '@angular/core';
 import { Effect, Actions, ofType } from '@ngrx/effects';
-import { mergeMap, catchError, map } from 'rxjs/operators';
+import { mergeMap, catchError, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()
@@ -28,10 +30,26 @@ export class UserEffect {
             mergeMap(
                 (data) => this.userService.createUser(data.payload)
                     .pipe(
-                        map(() => {
-                            return new UserAction.CreateUserSuccessAction(data.payload);
-                        }),
-                        catchError(error => of(new UserAction.CreateUserFailureAction(error)))
+                        switchMap(() => [
+                            new UserAction.CreateUserSuccessAction(data.payload),
+                            new UserAction.LoadUserAction()
+                        ]),
+                        catchError(error => of(new UserAction.CreateUserFailureAction(error))),
+                    )
+            )
+        );
+
+    @Effect() editUser = this.actions$
+        .pipe(
+            ofType<UserAction.EditUserAction>(UserAction.UserActionTypes.EDIT_USER),
+            mergeMap(
+                (data) => this.userService.updateUser(data.payload)
+                    .pipe(
+                        switchMap(() => [
+                            new UserAction.EditUserSuccessAction(data.payload),
+                            new UserAction.LoadUserAction()
+                        ]),
+                        catchError(error => of(new UserAction.EditUserFailureAction(error))),
                     )
             )
         );
@@ -52,6 +70,7 @@ export class UserEffect {
 
     constructor(
         private actions$: Actions,
-        private userService: UserService
+        private userService: UserService,
+        private store: Store<AppState>
     ) { }
 }
