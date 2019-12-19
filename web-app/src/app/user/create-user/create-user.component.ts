@@ -2,7 +2,7 @@ import { AppState } from './../../app-state.model';
 import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { UserMode } from '../user-mode.model';
-import { CreateUserAction, EditUserAction } from '../store/actions/user.actions';
+import { createUserAction, editUserAction } from '../store/actions/user.actions';
 
 @Component({
   selector: 'app-create-user',
@@ -37,12 +37,12 @@ export class CreateUserComponent implements OnInit {
 
   createNewUser() {
     this.view.submitted = true;
-    this.store.dispatch(new CreateUserAction(this.view.userInfo));
+    this.store.dispatch(createUserAction({ payload: this.view.userInfo }));
   }
 
   editUser() {
     this.view.submitted = true;
-    this.store.dispatch(new EditUserAction(this.view.userInfo));
+    this.store.dispatch(editUserAction({ payload: this.view.userInfo }));
   }
 
 }

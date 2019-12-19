@@ -1,6 +1,6 @@
 import { UserMode } from './../../user-mode.model';
 import { User } from './../../user.model';
-import { Action } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 export enum UserActionTypes {
     LOAD_USER = '[User Component] Load Users',
     LOAD_USER_SUCCESS = '[User Component] Load Users Success',
@@ -20,80 +20,62 @@ export enum UserActionTypes {
     LOAD_USER_DETAIL_FAILURE = '[User Detail Component] Load User Detail Failure'
 }
 
-export class LoadUserAction implements Action {
-    readonly type = UserActionTypes.LOAD_USER;
-}
+export const loadUsersAction = createAction(
+    UserActionTypes.LOAD_USER
+);
 
-export class LoadUserSuccessAction implements Action {
-    readonly type = UserActionTypes.LOAD_USER_SUCCESS;
-    constructor(public payload: User[]) { }
-}
+export const loadUsersSuccessAction = createAction(
+    UserActionTypes.LOAD_USER_SUCCESS,
+    props<{ payload: User[] }>()
+);
 
-export class LoadUserFailureAction implements Action {
-    readonly type = UserActionTypes.LOAD_USER_FAILURE;
-    constructor(public payload: Error) { }
-}
+export const loadUsersFailureAction = createAction(
+    UserActionTypes.LOAD_USER_FAILURE,
+    props<{ payload: Error }>()
+);
 
-export class LoadCreateUserAction implements Action {
-    readonly type = UserActionTypes.LOAD_CREATE_USER;
-    constructor(public payload: UserMode) { }
-}
+export const loadCreateUserAction = createAction(
+    UserActionTypes.LOAD_CREATE_USER,
+    props<{ payload: UserMode }>()
+);
 
-export class CreateUserAction implements Action {
-    readonly type = UserActionTypes.CREATE_USER;
-    constructor(public payload: User) { }
-}
+export const createUserAction = createAction(
+    UserActionTypes.CREATE_USER,
+    props<{payload: User}>()
+);
+export const createUserSuccessAction = createAction(
+    UserActionTypes.CREATE_USER_SUCCESS,
+    props<{payload: User}>()
+);
+export const createUserFailureAction = createAction(
+    UserActionTypes.CREATE_USER_FAILURE,
+    props<{payload: Error}>()
+);
 
-export class CreateUserSuccessAction implements Action {
-    readonly type = UserActionTypes.CREATE_USER_SUCCESS;
-    constructor(public payload: User) { }
-}
+export const editUserAction = createAction(
+    UserActionTypes.EDIT_USER,
+    props<{payload: User}>()
+);
+export const editUserSuccessAction = createAction(
+    UserActionTypes.EDIT_USER_SUCCESS,
+    props<{payload: User}>()
+);
+export const editUserFailureAction = createAction(
+    UserActionTypes.EDIT_USER_FAILURE,
+    props<{payload: Error}>()
+);
 
-export class CreateUserFailureAction implements Action {
-    readonly type = UserActionTypes.CREATE_USER_FAILURE;
-    constructor(public payload: Error) { }
-}
-export class EditUserAction implements Action {
-    readonly type = UserActionTypes.EDIT_USER;
-    constructor(public payload: User) { }
-}
+export const deleteUserAction = createAction (
+    UserActionTypes.DELETE_USER,
+    props<{payload: number}>()
+);
 
-export class EditUserSuccessAction implements Action {
-    readonly type = UserActionTypes.EDIT_USER_SUCCESS;
-    constructor(public payload: User) { }
-}
+export const deleteUserSuccessAction = createAction (
+    UserActionTypes.DELETE_USER_SUCCESS,
+    props<{payload: number}>()
+);
 
-export class EditUserFailureAction implements Action {
-    readonly type = UserActionTypes.EDIT_USER_FAILURE;
-    constructor(public payload: Error) { }
-}
-
-export class DeleteUserAction implements Action {
-    readonly type = UserActionTypes.DELETE_USER;
-    constructor(public payload: number) { }
-}
-
-export class DeleteUserSuccessAction implements Action {
-    readonly type = UserActionTypes.DELETE_USER_SUCCESS;
-    constructor(public payload: number) { }
-}
-
-export class DeleteUserFailureAction implements Action {
-    readonly type = UserActionTypes.DELETE_USER_FAILURE;
-    constructor(public payload: Error) { }
-}
-
-
-export type UserAction = LoadUserAction |
-    LoadUserSuccessAction |
-    LoadUserFailureAction |
-    LoadCreateUserAction |
-    CreateUserAction |
-    CreateUserSuccessAction |
-    CreateUserFailureAction |
-    EditUserAction  |
-    EditUserSuccessAction  |
-    EditUserFailureAction  |
-    DeleteUserAction |
-    DeleteUserSuccessAction |
-    DeleteUserFailureAction;
+export const deleteUserFailureAction = createAction (
+    UserActionTypes.DELETE_USER_FAILURE,
+    props<{payload: Error}>()
+);

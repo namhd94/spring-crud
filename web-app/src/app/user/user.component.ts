@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Component, OnInit } from '@angular/core';
 import { User } from './user.model';
 import { UserMode } from './user-mode.model';
-import { LoadUserAction, DeleteUserAction, LoadCreateUserAction } from './store/actions/user.actions';
+import { loadUsersAction, loadCreateUserAction, deleteUserAction, } from './store/actions/user.actions';
 
 @Component({
   selector: 'app-user',
@@ -27,24 +27,24 @@ export class UserComponent implements OnInit {
     this.store.select(store => store.user.loading).subscribe(loading => this.loading$ = loading);
     this.store.select(store => store.user.error).subscribe(error => this.error$ = error);
 
-    this.store.dispatch(new LoadUserAction());
+    this.store.dispatch(loadUsersAction());
   }
 
   addNewUser(): void {
     this.view.mode = 'create';
     this.view.userInfo = new User();
     this.view.submitted = false;
-    this.store.dispatch(new LoadCreateUserAction(this.view));
+    this.store.dispatch(loadCreateUserAction({ payload: this.view }));
   }
 
   updateUser(user: User): void {
     this.view.mode = 'edit';
     this.view.userInfo = user;
     this.view.submitted = false;
-    this.store.dispatch(new LoadCreateUserAction(this.view));
+    this.store.dispatch(loadCreateUserAction({ payload: this.view }));
   }
 
   deleteUser(id: number): void {
-    this.store.dispatch(new DeleteUserAction(id));
+    this.store.dispatch(deleteUserAction({ payload: id }));
   }
 }

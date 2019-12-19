@@ -1,5 +1,6 @@
-import { UserAction, UserActionTypes } from './../actions/user.actions';
+import * as UserAction from './../actions/user.actions';
 import { User } from './../../user.model';
+import { on, createReducer, Action } from '@ngrx/store';
 
 export interface UserReducerState {
     list: User[];
@@ -11,79 +12,28 @@ const initialState: UserReducerState = {
     list: [],
     loading: false,
     error: undefined
-}
+};
 
-export function UserReducer(state: UserReducerState = initialState, action: UserAction) {
-    switch (action.type) {
-        case UserActionTypes.LOAD_USER:
-            return {
-                ...state,
-                loading: true
-            };
-        case UserActionTypes.LOAD_USER_SUCCESS:
-            return {
-                ...state,
-                list: action.payload,
-                loading: false,
-            };
-        case UserActionTypes.LOAD_USER_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload
-            };
-        case UserActionTypes.CREATE_USER:
-            return {
-                ...state,
-                loading: true
-            };
-        case UserActionTypes.CREATE_USER_SUCCESS:
-            return {
-                ...state,
-                list: [...state.list, action.payload],
-                loading: false
-            };
-        case UserActionTypes.CREATE_USER_FAILURE:
-            return {
-                ...state,
-                error: action.payload,
-                loading: false
-            };
-        case UserActionTypes.EDIT_USER:
-            return {
-                ...state,
-                loading: true
-            };
-        case UserActionTypes.EDIT_USER_SUCCESS:
-            return {
-                ...state,
-                list: state.list,
-                loading: false
-            };
-        case UserActionTypes.EDIT_USER_FAILURE:
-            return {
-                ...state,
-                error: action.payload,
-                loading: false
-            };
-        case UserActionTypes.DELETE_USER:
-            return {
-                ...state,
-                loading: true
-            };
-        case UserActionTypes.DELETE_USER_SUCCESS:
-            return {
-                ...state,
-                list: state.list.filter(item => item.id !== action.payload),
-                loading: false
-            };
-        case UserActionTypes.DELETE_USER_FAILURE:
-            return {
-                ...state,
-                error: action.payload,
-                loading: false
-            };
-        default:
-            return state;
-    }
+const userReducer = createReducer(
+    initialState,
+    on(UserAction.loadUsersAction, state => ({ ...state, loading: true })),
+    on(UserAction.loadUsersSuccessAction, (state, action) => ({ ...state, list: action.payload, loading: false })),
+    on(UserAction.loadUsersFailureAction, (state, action) => ({ ...state, error: action.payload, loading: false })),
+    on(UserAction.createUserAction, state => ({ ...state, loading: true })),
+    on(UserAction.createUserSuccessAction, (state, action) => ({ ...state, list: [...state.list, action.payload], loading: false })),
+    on(UserAction.createUserFailureAction, (state, action) => ({ ...state, loading: false, error: action.payload })),
+    on(UserAction.editUserAction, state => ({ ...state, loading: true })),
+    on(UserAction.editUserSuccessAction, state => ({ ...state, list: state.list, loading: false })),
+    on(UserAction.editUserFailureAction, (state, action) => ({ ...state, loading: false, error: action.payload })),
+    on(UserAction.deleteUserAction, state => ({ ...state, loading: true })),
+    on(UserAction.deleteUserSuccessAction, (state, action) => ({
+        ...state,
+        list: state.list.filter(item => item.id !== action.payload),
+        loading: false
+    })),
+    on(UserAction.deleteUserFailureAction, (state, action) => ({ ...state, loading: false, error: action.payload })),
+);
+
+export function UserReducer(state: UserReducerState | undefined, action: Action) {
+    return userReducer(state, action);
 }

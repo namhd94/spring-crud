@@ -1,67 +1,64 @@
+import { User } from './../../user.model';
 import { UserService } from './../../user.service';
 import * as UserAction from './../actions/user.actions';
 import { Injectable } from '@angular/core';
-import { Effect, Actions, ofType } from '@ngrx/effects';
-import { mergeMap, catchError, map, switchMap } from 'rxjs/operators';
+import { Effect, Actions, ofType, createEffect } from '@ngrx/effects';
+import { mergeMap, catchError, map, switchMap, tap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Injectable()
 export class UserEffect {
 
-    @Effect() loadUsers = this.actions$
+    loadUsers$ = createEffect(() => this.actions$
         .pipe(
-            ofType<UserAction.LoadUserAction>(UserAction.UserActionTypes.LOAD_USER),
+            ofType(UserAction.loadUsersAction),
             mergeMap(
                 () => this.userService.getUsers()
                     .pipe(
-                        map(data => {
-                            return new UserAction.LoadUserSuccessAction(data);
-                        }),
-                        catchError(error => of(new UserAction.LoadUserFailureAction(error)))
+                        map((users: User[]) => UserAction.loadUsersSuccessAction({ payload: users })),
+                        catchError(error => of(UserAction.loadUsersFailureAction({ payload: error })))
                     )
             )
-        );
+        ));
 
-    @Effect() createUser = this.actions$
+    createUser$ = createEffect(() => this.actions$
         .pipe(
-            ofType<UserAction.CreateUserAction>(UserAction.UserActionTypes.CREATE_USER),
+            ofType(UserAction.createUserAction),
             mergeMap(
-                (data) => this.userService.createUser(data.payload)
+                data => this.userService.createUser(data.payload)
                     .pipe(
                         switchMap(() => [
-                            new UserAction.CreateUserSuccessAction(data.payload),
-                            new UserAction.LoadUserAction()
+                            UserAction.createUserSuccessAction({ payload: data.payload }),
+                            UserAction.loadUsersAction()
                         ]),
-                        catchError(error => of(new UserAction.CreateUserFailureAction(error))),
+                        catchError(error => of(UserAction.loadUsersFailureAction({ payload: error })))
                     )
             )
-        );
+        ));
 
-    @Effect() editUser = this.actions$
+    editUser$ = createEffect(() => this.actions$
         .pipe(
-            ofType<UserAction.EditUserAction>(UserAction.UserActionTypes.EDIT_USER),
+            ofType(UserAction.editUserAction),
             mergeMap(
                 (data) => this.userService.updateUser(data.payload)
                     .pipe(
                         switchMap(() => [
-                            new UserAction.EditUserSuccessAction(data.payload),
-                            new UserAction.LoadUserAction()
+                            UserAction.editUserSuccessAction({ payload: data.payload }),
+                            UserAction.loadUsersAction()
                         ]),
-                        catchError(error => of(new UserAction.EditUserFailureAction(error))),
+                        catchError(error => of(UserAction.loadUsersFailureAction({ payload: error })))
                     )
             )
-        );
+        ));
 
     @Effect() deleteUser = this.actions$
         .pipe(
-            ofType<UserAction.DeleteUserAction>(UserAction.UserActionTypes.DELETE_USER),
+            ofType(UserAction.deleteUserAction),
             mergeMap(
                 (data) => this.userService.deleteUser(data.payload)
                     .pipe(
-                        map(() => {
-                            return new UserAction.DeleteUserSuccessAction(data.payload);
-                        }),
-                        catchError(error => of(new UserAction.DeleteUserFailureAction(error)))
+                        map(() => UserAction.deleteUserSuccessAction({ payload: data.payload })),
+                        catchError(error => of(UserAction.loadUsersFailureAction({ payload: error })))
                     )
             )
         );
