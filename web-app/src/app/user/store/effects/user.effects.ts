@@ -51,7 +51,7 @@ export class UserEffect {
             )
         ));
 
-    @Effect() deleteUser = this.actions$
+    deleteUser$ = createEffect(() => this.actions$
         .pipe(
             ofType(UserAction.deleteUserAction),
             mergeMap(
@@ -61,7 +61,7 @@ export class UserEffect {
                         catchError(error => of(UserAction.loadUsersFailureAction({ payload: error })))
                     )
             )
-        );
+        ));
 
     constructor(
         private actions$: Actions,

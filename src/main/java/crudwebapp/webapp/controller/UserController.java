@@ -22,68 +22,74 @@ import crudwebapp.webapp.entity.UserEntity;
 import crudwebapp.webapp.service.UserService;
 
 /**
+ * The Class UserController.
+ *
  * @author <a href="mailto:developer@hitachiconsulting.com">Nam</a>
+ */
+/**
+ * @author namhd94
  *
  */
 @RestController
 @RequestMapping("/rest/user")
 public class UserController {
-  
-  @Autowired
-  private UserService userService;
-  
-  /**
-   * Find all.
-   *
-   * @return the list
-   */
-  @GetMapping
-  public List<UserEntity> findAll() {
-    return userService.getAllUsers();
-  }
-  
-  /**
-   * Creates the user.
-   *
-   * @param user the user
-   */
-  @PostMapping
-  public void createUser(@Valid @RequestBody UserEntity user) {
-	  userService.saveUser(user);
-  }
-  
-  /**
-   * Read user.
-   *
-   * @param userId the user id
-   * @return the optional
-   */
-  @GetMapping("/{id}")
-  public Optional<UserEntity> readUser(@PathVariable(value = "id") Long userId) {
-	  return userService.findUserById(userId);
-  }
-  
-  /**
-   * Update user.
-   *
-   * @param id the id
-   * @param updatedUser the updated user
-   */
-  @PutMapping("/{id}")
-  public void updateUser(@Valid @RequestBody UserEntity updatedUser) {
-	  Optional<UserEntity> user = userService.findUserById(updatedUser.getId());
-	  if (user.isPresent()) {
-		  userService.saveUser(updatedUser);
-	  }
-  }
-  
-  /**
-   * Delete user.
-   *
-   * @param id the id
-   */
-  @DeleteMapping("/{id}")
-  public void deleteUser(@PathVariable Long id) {
-	  userService.deleteUser(id);
-  }
+
+	/** The user service. */
+	@Autowired
+	private UserService userService;
+
+	/**
+	 * Find all.
+	 *
+	 * @return the list
+	 */
+	@GetMapping
+	public List<UserEntity> findAll() {
+		return userService.getAllUsers();
+	}
+
+	/**
+	 * Creates the user.
+	 *
+	 * @param user the user
+	 * @return the long
+	 */
+	@PostMapping
+	public Long createUser(@Valid @RequestBody UserEntity user) {
+		return userService.saveUser(user);
+	}
+
+	/**
+	 * Read user.
+	 *
+	 * @param userId the user id
+	 * @return the optional
+	 */
+	@GetMapping("/{id}")
+	public Optional<UserEntity> readUser(@PathVariable(value = "id") Long userId) {
+		return userService.findUserById(userId);
+	}
+
+	/**
+	 * Update user.
+	 *
+	 * @param updatedUser the updated user
+	 */
+	@PutMapping("/{id}")
+	public void updateUser(@Valid @RequestBody UserEntity updatedUser) {
+		Optional<UserEntity> user = userService.findUserById(updatedUser.getId());
+		if (user.isPresent()) {
+			userService.saveUser(updatedUser);
+		}
+	}
+
+	/**
+	 * Delete user.
+	 *
+	 * @param id the id
+	 */
+	@DeleteMapping("/{id}")
+	public void deleteUser(@PathVariable Long id) {
+		userService.deleteUser(id);
+	}
 }
