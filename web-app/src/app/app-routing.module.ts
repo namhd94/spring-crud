@@ -1,3 +1,5 @@
+import { NotFoundComponent } from './error/not-found.component';
+import { InternalErrorComponent } from './error/internal-error.component';
 import { CreateUserComponent } from './user/create-user/create-user.component';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { NgModule } from '@angular/core';
@@ -7,14 +9,16 @@ import { UserComponent } from './user/user.component';
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/rest/dashboard', pathMatch: 'full' },
-  { path: 'rest/dashboard', component: DashboardComponent },
-  { path: 'rest/user', component: UserComponent },
-  { path: 'rest/user/:id', component: UserDetailComponent }
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: 'dashboard', component: DashboardComponent },
+  { path: 'user', component: UserComponent },
+  { path: 'user/:id', component: UserDetailComponent },
+  { path: '500', component: InternalErrorComponent },
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {useHash: true})],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

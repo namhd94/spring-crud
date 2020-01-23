@@ -2,7 +2,7 @@ import { UserService } from './../user.service';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../user.model';
 import { ActivatedRoute } from '@angular/router';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -13,7 +13,11 @@ export class UserDetailComponent implements OnInit {
   id: number;
   user: User;
 
-  constructor(private activedRoute: ActivatedRoute, private userService: UserService) { }
+  constructor(
+    private activedRoute: ActivatedRoute,
+    private userService: UserService,
+    private location: Location
+    ) { }
 
   ngOnInit() {
     this.user = new User();
@@ -26,6 +30,10 @@ export class UserDetailComponent implements OnInit {
       console.log(data);
       this.user = data;
     }, error => console.log(error));
+  }
+
+  backLastPage() {
+    this.location.back();
   }
 
 }

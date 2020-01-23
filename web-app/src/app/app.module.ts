@@ -1,3 +1,6 @@
+import { NotFoundComponent } from './error/not-found.component';
+import { InternalErrorComponent } from './error/internal-error.component';
+import { HttpErrorInterceptor } from './error/http-error.interceptor';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -5,7 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { UserComponent } from './user/user.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { UserDetailComponent } from './user/user-detail/user-detail.component';
 import { CreateUserComponent } from './user/create-user/create-user.component';
 import { FormsModule } from '@angular/forms';
@@ -23,7 +26,9 @@ import { CreateUserReducer } from './user/store/reducers/create-user.reducers';
     UserComponent,
     DashboardComponent,
     UserDetailComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    InternalErrorComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +42,13 @@ import { CreateUserReducer } from './user/store/reducers/create-user.reducers';
     EffectsModule.forRoot([UserEffect]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

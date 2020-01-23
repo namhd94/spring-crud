@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import crudwebapp.webapp.entity.UserEntity;
 import crudwebapp.webapp.service.UserService;
@@ -67,7 +69,13 @@ public class UserController {
 	 */
 	@GetMapping("/{id}")
 	public Optional<UserEntity> readUser(@PathVariable(value = "id") Long userId) {
-		return userService.findUserById(userId);
+		Optional<UserEntity> user = userService.findUserById(userId);
+		if (!user.isPresent()) {
+			throw new ResponseStatusException(
+					  HttpStatus.NOT_FOUND, "entity not found"
+					);
+		}
+		return user;
 	}
 
 	/**
