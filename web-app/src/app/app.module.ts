@@ -19,6 +19,8 @@ import { environment } from '../environments/environment';
 import { UserReducer } from './user/store/reducers/user.reducers';
 import { UserEffect } from './user/store/effects/user.effects';
 import { CreateUserReducer } from './user/store/reducers/create-user.reducers';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { CreateUserReducer } from './user/store/reducers/create-user.reducers';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
     StoreModule.forRoot({
       user: UserReducer,
       createUser: CreateUserReducer

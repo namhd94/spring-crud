@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from './user.model';
 import { UserMode } from './user-mode.model';
 import { loadUsersAction, loadCreateUserAction, deleteUserAction, } from './store/actions/user.actions';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-user',
@@ -18,14 +19,22 @@ export class UserComponent implements OnInit {
   view: UserMode;
 
   constructor(
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit() {
     this.view = new UserMode();
+
+    this.spinner.show();
+
     this.store.select(store => store.user.list).subscribe(users => this.users = users);
     this.store.select(store => store.user.loading).subscribe(loading => this.loading$ = loading);
     this.store.select(store => store.user.error).subscribe(error => this.error$ = error);
+
+    if (this.loading$ === false) {
+      setTimeout(() => { this.spinner.hide(); }, 1000);
+    }
 
     this.store.dispatch(loadUsersAction());
   }
