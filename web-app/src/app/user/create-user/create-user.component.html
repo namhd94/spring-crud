@@ -1,0 +1,20 @@
+<div *ngIf="view.mode">
+    <form [hidden]="view.submitted" (ngSubmit)="onSubmit()">
+        <label for="username">Username</label>
+        <input type="text" id="username" required [(ngModel)]="view.userInfo.username" name="username">
+        <br/>
+        <label for="email">Email</label>
+        <input type="email" id="email" required [(ngModel)]="view.userInfo.email" name="email">
+        <br/>
+        <label for="password">Password</label>
+        <input type="password" id="password" required [(ngModel)]="view.userInfo.password" name="password">
+        <br/>
+        <label for="phone">Phone</label>
+        <input type="text" id="phone" required [(ngModel)]="view.userInfo.phone" name="phone">
+        <br/>
+        <button type="submit">Submit</button>
+    </form>
+    <div [hidden]="!view.submitted">
+        <h4>You submitted successfully!</h4>
+    </div>
+</div>

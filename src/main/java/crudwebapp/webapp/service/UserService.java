@@ -13,35 +13,33 @@ import crudwebapp.webapp.entity.UserEntity;
  */
 public interface UserService {
 
-  /**
-   * Gets the all users.
-   *
-   * @return the all users
-   */
-  List<UserEntity> getAllUsers();
+	/**
+	 * Gets the all users.
+	 *
+	 * @return the all users
+	 */
+	List<UserEntity> getAllUsers();
 
-  /**
-   * Save user.
-   *
-   * @param user
-   *          the user
-   */
-  void saveUser(UserEntity user);
+	/**
+	 * Save user.
+	 *
+	 * @param user the user
+	 * @return the long
+	 */
+	Long saveUser(UserEntity user);
 
-  /**
-   * Delete user.
-   *
-   * @param id
-   *          the id
-   */
-  void deleteUser(Long id);
+	/**
+	 * Delete user.
+	 *
+	 * @param id the id
+	 */
+	void deleteUser(Long id);
 
-  /**
-   * Find user by id.
-   *
-   * @param id
-   *          the id
-   * @return the optional
-   */
-  Optional<UserEntity> findUserById(Long id);
+	/**
+	 * Find user by id.
+	 *
+	 * @param id the id
+	 * @return the optional
+	 */
+	Optional<UserEntity> findUserById(Long id);
 }

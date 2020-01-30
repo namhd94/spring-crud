@@ -1,0 +1,15 @@
+<ngx-spinner type="ball-beat">
+    <p style="font-size: 20px; color: white">Loading...</p>
+</ngx-spinner>
+<button (click)="addNewUser()">Add new user</button>
+<div *ngIf="users">
+    <ul *ngFor="let user of users; let i = index">
+        <li>{{i + 1}}: <a [routerLink]="['/user', user.id]">{{user.username}}</a>
+            <button (click)="updateUser(user)">Edit</button>
+            <button (click)="deleteUser(user.id)">Delete</button>
+        </li>
+    </ul>
+</div>
+<div *ngIf="view">
+    <app-create-user></app-create-user>
+</div>
