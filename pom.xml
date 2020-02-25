@@ -61,9 +61,22 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+			  <groupId>org.springframework.boot</groupId>
+			  <artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+		      <groupId>com.google.cloud.tools</groupId>
+		      <artifactId>jib-maven-plugin</artifactId>
+		      <version>2.0.0</version>
+		      <configuration>
+		        <from>
+		          <image>openjdk:8-jdk-alpine</image>
+	            </from>
+	            <to>
+	              <image>web-service</image>
+	            </to>
+	          </configuration>
+		    </plugin>
 		</plugins>
 	</build>
 
