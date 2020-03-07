@@ -1,33 +1,10 @@
 version: '3'
 
 services:
-  postgres:
-    image: postgres:latest
-    network_mode: bridge
-    container_name: postgres-container
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-      # - ./db-script/:/docker-entrypoint-initdb.d/
-    expose:
-      - 5432
-    ports:
-      - 5432:5432
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=crud
-    restart: unless-stopped
   webapp:
     image: web-service:latest
     network_mode: host
-    container_name: web-service-container
-    expose:
-      - 8080
+    container_name: web-service
     ports:
       - 8080:8080
     restart: unless-stopped
-    depends_on:
-      - postgres
-
-volumes:
-  postgres-data:
