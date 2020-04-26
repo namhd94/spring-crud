@@ -21,6 +21,12 @@ import { UserEffect } from './user/store/effects/user.effects';
 import { CreateUserReducer } from './user/store/reducers/create-user.reducers';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { IconsProviderModule } from './icons-provider.module';
+import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+
+registerLocaleData(en);
 
 @NgModule({
   declarations: [
@@ -44,14 +50,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       createUser: CreateUserReducer
     }),
     EffectsModule.forRoot([UserEffect]),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
+    IconsProviderModule,
+    NgZorroAntdModule
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
       multi: true
-    }
+    },
+    { provide: NZ_I18N, useValue: en_US }
   ],
   bootstrap: [AppComponent]
 })
